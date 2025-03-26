@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { IStore } from "../interfaces/store";
 import { clearLoginUser } from "../redux/actions/userAction";
-import { capitalizeFirstLetter } from "../interfaces/user";
+import { capitalizeFirstLetter } from "../utils/functions";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const Header = () => {
         className="flex items-center justify-center"
       >
         <div>
-          <p className="text-base font-extrabold">Wellness Center</p>
+          <p className="text-base font-extrabold">Parking slot booking</p>
         </div>
       </button>
       {!isEmpty(email) && (
@@ -61,7 +61,7 @@ const Header = () => {
           <p className="text-xl mx-2">
             <strong>Name:</strong> {capitalizeFirstLetter(currentUser.name)}{" "}
           </p>
-          {currentUser?.role === "provider" && (
+          {currentUser?.role === "admin" && (
             <p className="text-xl mx-2">
               <strong>Role:</strong> {capitalizeFirstLetter(currentUser.role)}{" "}
             </p>
