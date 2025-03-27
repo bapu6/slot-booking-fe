@@ -8,7 +8,7 @@ interface FilterValues {
     name: string;
 }
 
-const Filter: React.FC<{  onFilter: (values: FilterValues) => void }> = ({  onFilter }) => {
+const Filter: React.FC<{ onFilter: (values: FilterValues) => void }> = ({ onFilter }) => {
 
     const initialValues: FilterValues = {
         name: '',

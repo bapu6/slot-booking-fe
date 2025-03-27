@@ -20,9 +20,9 @@ const userDetails: IUser = {
   name: "Bapu Pradhan",
   email: "bapu.pradhan@hcltech.com",
   password: "Bapuni@123",
-  role: "patient",
   mobile: "",
-  sapId: ""
+  sapId: "",
+  role: "admin"
 };
 
 const user = {
