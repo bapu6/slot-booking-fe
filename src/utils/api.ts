@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { IApiResponse, ICustomFetchParams } from "../interfaces/api";
+import { COMMON_ERROR } from "../constants/error";
 
 export const apiUrl = "http://localhost:8080/api/v1";
 // import.meta.env.VITE_API_URL;
@@ -19,18 +20,21 @@ const customFetch = async <T, U>({
   method = "GET",
   data,
 }: ICustomFetchParams<T>): Promise<IApiResponse<U>> => {
-  const result = await fetch(`${apiUrl}/${path}`, {
-    method,
-    body: data ? JSON.stringify(data) : null,
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  })
-    .then((resp) => resp.json())
-    .then((result) => result)
-    .catch((e) => {
-      toast.error(e?.message);
-      throw new Error(e?.message);
+  try {
+    const res = await fetch(`${apiUrl}/${path}`, {
+      method,
+      body: data ? JSON.stringify(data) : null,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
-
-  return result;
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData?.message || "An error occurred");
+    }
+    const result = await res.json();
+    return result;
+  } catch (e) {
+    toast.error(e?.message);
+    throw new Error(e?.message);
+  }
 };

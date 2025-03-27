@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Formik, FastField, Form, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { loginSchema } from "../schemas/userLoginSchema";
 import { IUserLogin } from "../interfaces/user";
@@ -94,7 +94,6 @@ const Login = () => {
           </Form>
         </Formik>
       </div>
-      <ToastContainer />
     </div>
   );
 };
