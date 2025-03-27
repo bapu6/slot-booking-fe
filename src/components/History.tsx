@@ -51,11 +51,16 @@ const History = () => {
             <p>Tower: {item.tower}</p>
             <p>Slot ID: {item.slotId}</p>
             <p>Date: {new Date(item.date).toLocaleDateString()}</p>
-            <p>Booked By: {item.bookedBy}</p>
+            <p>Booked By: {item.createdBy}</p>
             <p>Booked Date: {new Date(item.bookedDate).toLocaleDateString()}</p>
             {user?.role == "admin" && <p>User ID: {item.userId}</p>}
             <p>Status: {item.status}</p>
-            <p>Toggle Status</p>
+            <button
+              onClick={() => hanldeSlotRelease(item)}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline mt-4"
+            >
+              Release
+            </button>
           </div>
         ))}
       </div>
@@ -72,6 +77,7 @@ const History = () => {
                 <th className="py-2 px-4 border-b text-left">User ID</th>
               )}
               <th className="py-2 px-4 border-b text-left">Status</th>
+              <th className="py-2 px-4 border-b text-left">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -82,7 +88,7 @@ const History = () => {
                 <td className="py-2 px-4 border-b">
                   {new Date(item.date).toLocaleDateString()}
                 </td>
-                <td className="py-2 px-4 border-b">{item.bookedBy}</td>
+                <td className="py-2 px-4 border-b">{item.createdBy}</td>
                 <td className="py-2 px-4 border-b">
                   {new Date(item?.createdAt as string).toDateString()}
                 </td>
