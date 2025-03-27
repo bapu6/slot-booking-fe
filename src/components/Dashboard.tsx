@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [slots, setSlots] = useState<ISlot[]>([]);
 
   // Tower dropdown options
-  const towerNumbers = Array.from({ length: 10 }, (_, i) => i + 1);
+  const towerNumbers = Array.from({ length: 4 }, (_, i) => i + 1);
   /**
    * API call to fetch all the available slots
    * filtered by tower and date
