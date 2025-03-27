@@ -9,7 +9,7 @@ const History = () => {
     {
       tower: 1,
       slotId: 101,
-      date: "2025-03-26T00:00:00Z" as unknown as Date,
+      date: "2025-03-26T00:00:00Z",
       bookedBy: "605c72b2f1b2b2a1b2c3d4e5",
       bookedDate: "2025-03-25T00:00:00Z",
       userId: "605c72b2f1b2b2a1b2c3d4e6",
@@ -18,7 +18,7 @@ const History = () => {
     {
       tower: 2,
       slotId: 102,
-      date: "2025-03-27T00:00:00Z" as unknown as Date,
+      date: "2025-03-27T00:00:00Z",
       bookedBy: "605c72b2f1b2b2a1b2c3d4e7",
       bookedDate: "2025-03-26T00:00:00Z",
       userId: "605c72b2f1b2b2a1b2c3d4e8",
@@ -27,7 +27,7 @@ const History = () => {
     {
       tower: 3,
       slotId: 103,
-      date: "2025-03-28T00:00:00Z" as unknown as Date,
+      date: "2025-03-28T00:00:00Z",
       bookedBy: "605c72b2f1b2b2a1b2c3d4e9",
       bookedDate: "2025-03-27T00:00:00Z",
       userId: "605c72b2f1b2b2a1b2c3d4ea",
