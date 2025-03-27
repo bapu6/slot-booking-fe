@@ -22,7 +22,7 @@ const Header = () => {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { email } = currentUser;
+  const { email, name } = currentUser;
   const closeDialog = () => setIsDialogOpen(false);
   const openDialog = () => setIsDialogOpen(true);
 
@@ -32,46 +32,38 @@ const Header = () => {
     navigate("/");
   };
 
+  const goToBookedSlot = () => {
+    navigate("/history");
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        gap: 10,
-        position: "sticky",
-        top: 0,
-        zIndex: 999,
-        padding: 16,
-        backgroundColor: "white",
-        opacity: 0.95,
-        borderBottomWidth: 2,
-      }}
-    >
+    <div className="flex justify-between items-center gap-4 sticky top-0 z-50 p-4 bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg">
       <button
         onClick={() => navigate("/dashboard")}
         className="flex items-center justify-center"
       >
         <div>
-          <p className="text-base font-extrabold">Parking slot booking</p>
+          <p className="text-[20px] font-bold">Parking Slot</p>
         </div>
       </button>
       {!isEmpty(email) && (
         <div className="flex items-center justify-center">
-          <p className="text-xl mx-2">
-            <strong>Name:</strong> {capitalizeFirstLetter(currentUser.name)}{" "}
-          </p>
           {currentUser?.role === "admin" && (
             <p className="text-xl mx-2">
               <strong>Role:</strong> {capitalizeFirstLetter(currentUser.role)}{" "}
             </p>
           )}
-
+          <button
+            onClick={goToBookedSlot}
+            className="border border-white py-2 px-5 rounded-lg mr-2 hover:bg-white hover:text-blue-500 transition"
+          >
+            History
+          </button>
           <button
             onClick={openDialog}
-            className="border border-blue-500 py-2 px-5 rounded-lg"
+            className="border border-white h-10 w-10 hover:bg-white hover:text-blue-500 transition rounded-full"
           >
-            Logout
+            {name?.charAt(0)}
           </button>
         </div>
       )}
@@ -84,7 +76,7 @@ const Header = () => {
         <DialogTitle>Logout</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Are You sure? Do you want to logout ?
+            Are you sure you want to logout?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
