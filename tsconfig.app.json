@@ -15,13 +15,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
-
+    
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "outDir": "./parking-slot-fe"
   },
   "include": [
     "src",
