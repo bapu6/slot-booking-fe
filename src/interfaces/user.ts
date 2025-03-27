@@ -5,7 +5,6 @@ export interface IUser {
   password?: string;
   role: "admin" | "employee";
   mobile: string;
-  sapId: string;
 }
 
 export interface IUserLogin {
@@ -19,15 +18,11 @@ export const defaultUser: IUser = {
   password: "",
   role: "employee",
   mobile: "",
-  sapId: "",
 };
 
-
-export interface ISlotObject{
+export interface ISlotObject {
   tower: number;
   slotId: number;
   date: string;
   userId?: string;
 }
-
-

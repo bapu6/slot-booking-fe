@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { IApiResponse, ICustomFetchParams } from "../interfaces/api";
-import { COMMON_ERROR } from "../constants/error";
 
 export const apiUrl = "http://localhost:8080/api/v1";
 // import.meta.env.VITE_API_URL;
@@ -33,8 +32,11 @@ const customFetch = async <T, U>({
     }
     const result = await res.json();
     return result;
-  } catch (e) {
-    toast.error(e?.message);
-    throw new Error(e?.message);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      toast.error(e?.message);
+      throw e; // Rethrow the error after handling it
+    }
+    throw new Error("An unknown error occurred"); // Handle non-Error exceptions
   }
 };
