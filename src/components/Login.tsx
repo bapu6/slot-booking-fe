@@ -23,7 +23,6 @@ const Login = () => {
 
   useEffect(() => {
     if (email) {
-      toast.success("User login successful");
       navigate("/dashboard");
     }
   }, [email, navigate]);
