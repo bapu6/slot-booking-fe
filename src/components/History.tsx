@@ -22,18 +22,18 @@ const History = () => {
   };
   //handles slot release
   const hanldeSlotRelease = async (slot: ISlotObject) => {
-    console.log(slot.date)
+    console.log(slot.date);
     const slotDetails: ISlotObject = {
       tower: slot.tower,
       slotId: slot.slotId,
-      date: new Date(slot.date).toISOString().split('T')[0],
-      userId: slot.userId
-    }
+      date: new Date(slot.date).toISOString().split("T")[0],
+      userId: slot.userId,
+    };
     const book = await SlotService.releaseSlot(slotDetails);
     if (book.success) {
       toast.success(book.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchHistory();
@@ -84,18 +84,20 @@ const History = () => {
                 </td>
                 <td className="py-2 px-4 border-b">{item.bookedBy}</td>
                 <td className="py-2 px-4 border-b">
-                  {new Date(item.createdAt).toDateString()}
+                  {new Date(item?.createdAt as string).toDateString()}
                 </td>
                 {user?.role == "admin" && (
                   <td className="py-2 px-4 border-b">{item.userId}</td>
                 )}
                 <td className="py-2 px-4 border-b">{item.status}</td>
-                <td className="py-2 px-4 border-b"><button
-                  onClick={() => hanldeSlotRelease(item)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Release
-                </button></td>
+                <td className="py-2 px-4 border-b">
+                  <button
+                    onClick={() => hanldeSlotRelease(item)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+                  >
+                    Release
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
