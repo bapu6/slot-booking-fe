@@ -80,6 +80,7 @@ const Dashboard = () => {
             id="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            min={new Date().toISOString().split("T")[0]} // Set the minimum date to today
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-sky-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>
