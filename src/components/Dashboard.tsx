@@ -2,6 +2,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { customFetch } from "../utils/api";
 import { ISlot } from "../interfaces/slot";
+import { ISlotObject } from "../interfaces/user";
+import { SlotService } from "../services/slot.service";
 
 const Dashboard = () => {
   const [tower, setTower] = useState("");
@@ -31,6 +33,21 @@ const Dashboard = () => {
       toast.error("Failed to fetch slots");
     }
   };
+
+  const hanldeBooking = async (slot: ISlotObject) => {
+    const slotDetails: ISlotObject = {
+      tower: slot.tower,
+      slotId: slot.slotId,
+      date: date,
+    }
+    // slotDetails.userId = "sdfhioas";
+    const book = await SlotService.bookSlot(slotDetails);
+    if (book.success) {
+      toast.success(book.message);
+      setSlots([]);
+    }
+  }
+
 
   return (
     <div className="container mx-auto p-4 max-w-xl mt-10 md:mt-6 lg:mt-12">
@@ -89,6 +106,7 @@ const Dashboard = () => {
                   <td className="py-2 px-6 border-b text-left">{slot?.slotId}</td> {/* Adjusted padding and alignment */}
                   <td className="py-2 px-6 border-b text-left"> {/* Adjusted padding and alignment */}
                     <button
+                      onClick={() => hanldeBooking(slot)}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">
                       Book
                     </button>

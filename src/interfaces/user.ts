@@ -21,3 +21,13 @@ export const defaultUser: IUser = {
   mobile: "",
   sapId: "",
 };
+
+
+export interface ISlotObject{
+  tower: number;
+  slotId: number;
+  date: string;
+  userId?: string;
+}
+
+
