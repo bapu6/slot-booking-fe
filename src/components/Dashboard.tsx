@@ -23,13 +23,13 @@ const Dashboard = () => {
     }
 
     try {
-      const { data, success } = await customFetch({
+      const { data, success } = await customFetch<null, ISlot[]>({
         path: `slots?tower=${tower}&date=${date}`,
         method: "GET",
       });
-      console.log('data', data)
-      if (success) setSlots((data as { data: ISlot[] })?.data);
-    } catch (error) {
+      console.log("data", data);
+      if (success) setSlots(data);
+    } catch {
       toast.error("Failed to fetch slots");
     }
   };
@@ -39,21 +39,23 @@ const Dashboard = () => {
       tower: slot.tower,
       slotId: slot.slotId,
       date: date,
-    }
+    };
     // slotDetails.userId = "sdfhioas";
     const book = await SlotService.bookSlot(slotDetails);
     if (book.success) {
       toast.success(book.message);
       setSlots([]);
     }
-  }
-
+  };
 
   return (
     <div className="container mx-auto p-4 max-w-xl mt-10 md:mt-6 lg:mt-12">
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tower">
+          <label
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="tower"
+          >
             Tower<span className="text-red-500">*</span>
           </label>
           <select
@@ -69,10 +71,12 @@ const Dashboard = () => {
               </option>
             ))}
           </select>
-
         </div>
         <div className="w-full md:w-1/2 px-3">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="date">
+          <label
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="date"
+          >
             Date<span className="text-red-500">*</span>
           </label>
           <input
@@ -88,27 +92,36 @@ const Dashboard = () => {
       <div className="flex justify-center">
         <button
           onClick={handleSearch}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
           Search
         </button>
       </div>
-      {slots.length > 0 && (
+      {slots?.length > 0 && (
         <div className="mt-6">
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="py-2 px-6 border-b text-left">Slot ID</th> {/* Adjusted padding and alignment */}
-                <th className="py-2 px-6 border-b text-left">Action</th> {/* Adjusted padding and alignment */}
+                <th className="py-2 px-6 border-b text-left">Slot ID</th>{" "}
+                {/* Adjusted padding and alignment */}
+                <th className="py-2 px-6 border-b text-left">Action</th>{" "}
+                {/* Adjusted padding and alignment */}
               </tr>
             </thead>
             <tbody>
               {slots?.map((slot) => (
                 <tr key={slot?.slotId}>
-                  <td className="py-2 px-6 border-b text-left">{slot?.slotId}</td> {/* Adjusted padding and alignment */}
-                  <td className="py-2 px-6 border-b text-left"> {/* Adjusted padding and alignment */}
+                  <td className="py-2 px-6 border-b text-left">
+                    {slot?.slotId}
+                  </td>{" "}
+                  {/* Adjusted padding and alignment */}
+                  <td className="py-2 px-6 border-b text-left">
+                    {" "}
+                    {/* Adjusted padding and alignment */}
                     <button
                       onClick={() => hanldeBooking(slot)}
-                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+                    >
                       Book
                     </button>
                   </td>
