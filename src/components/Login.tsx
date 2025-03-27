@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Formik, FastField, Form, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
 
 import { loginSchema } from "../schemas/userLoginSchema";
 import { IUserLogin } from "../interfaces/user";
@@ -23,7 +22,6 @@ const Login = () => {
 
   useEffect(() => {
     if (email) {
-      toast.success("User login successful");
       navigate("/dashboard");
     }
   }, [email, navigate]);

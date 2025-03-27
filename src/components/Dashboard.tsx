@@ -7,12 +7,15 @@ import { SlotService } from "../services/slot.service";
 import SearchSelect, { User } from "./common/Search";
 import { IStore } from "../interfaces/store";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
   const [tower, setTower] = useState("");
   const [date, setDate] = useState("");
+  const navigate = useNavigate();
   const [slots, setSlots] = useState<ISlot[]>([]);
   const { data: user } = useSelector((store: IStore) => store?.user);
+  const [selectedUser, setSelectedUser] = useState<User>();
 
   // Tower dropdown options
   const towerNumbers = Array.from({ length: 4 }, (_, i) => i + 1);
@@ -35,13 +38,13 @@ const Dashboard = () => {
         path: `slots?tower=${tower}&date=${date}`,
         method: "GET",
       });
-      console.log("data", data);
       if (success) setSlots(data);
     } catch {
       toast.error("Failed to fetch slots");
     }
   };
 
+  //handles slot booking 
   const hanldeBooking = async (slot: ISlotObject) => {
     const slotDetails: ISlotObject = {
       tower: slot.tower,
@@ -52,19 +55,17 @@ const Dashboard = () => {
     const book = await SlotService.bookSlot(slotDetails);
     if (book.success) {
       toast.success(book.message);
+      navigate('/history');
       setSlots([]);
       setSelectedUser(undefined);
     }
   }
 
-  const [selectedUser, setSelectedUser] = useState<User>();
-
+  //handles user select from search
   const handleSelect = (name: User) => {
     console.log(selectedUser)
     setSelectedUser(name);
   };
-
-
 
   return (
     <div className="container mx-auto p-4 max-w-xl mt-10 md:mt-6 lg:mt-12">
@@ -126,9 +127,7 @@ const Dashboard = () => {
             <thead>
               <tr>
                 <th className="py-2 px-6 border-b text-left">Slot ID</th>{" "}
-                {/* Adjusted padding and alignment */}
                 <th className="py-2 px-6 border-b text-left">Action</th>{" "}
-                {/* Adjusted padding and alignment */}
               </tr>
             </thead>
             <tbody>
@@ -137,15 +136,13 @@ const Dashboard = () => {
                   <td className="py-2 px-6 border-b text-left">
                     {slot?.slotId}
                   </td>{" "}
-                  {/* Adjusted padding and alignment */}
                   <td className="py-2 px-6 border-b text-left">
                     {" "}
-                    {/* Adjusted padding and alignment */}
                     <button
                       onClick={() => hanldeBooking(slot)}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Book
+                      Reserve
                     </button>
                   </td>
                 </tr>

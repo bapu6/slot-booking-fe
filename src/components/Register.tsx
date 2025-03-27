@@ -35,8 +35,7 @@ const Register = () => {
             mobile: "",
             email: "",
             password: "",
-            sapId: "",
-            role: "patient",
+            role: "employee",
           }}
           validationSchema={registerSchema}
           onSubmit={(values: IUser) => {

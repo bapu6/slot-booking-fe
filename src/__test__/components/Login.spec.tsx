@@ -21,9 +21,8 @@ const mockStoreData: IStore = {
     data: {
       name: "",
       email: "",
+      role: "employee",
       mobile: "",
-      sapId: "",
-      role: "admin"
     },
     isLoading: false,
     error: "",
