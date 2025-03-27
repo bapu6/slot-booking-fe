@@ -1,7 +1,7 @@
 export interface ISlot {
   tower: number;
   slotId: number;
-  date: Date;
+  date: string;
   bookedBy: string;
   bookedDate: string;
   userId: string;
