@@ -3,6 +3,9 @@ import { ISlot } from "../interfaces/slot";
 import { IStore } from "../interfaces/store";
 import { customFetch } from "../utils/api";
 import { useEffect, useState } from "react";
+import { SlotService } from "../services/slot.service";
+import { toast } from "react-toastify";
+import { ISlotObject } from "../interfaces/user";
 
 const History = () => {
   const [history, setHistory] = useState<ISlot[]>([]);
@@ -17,6 +20,20 @@ const History = () => {
       setHistory(data);
     }
   };
+  //handles slot release
+  const hanldeSlotRelease = async (slot: ISlotObject) => {
+    console.log(slot.date)
+    const slotDetails: ISlotObject = {
+      tower: slot.tower,
+      slotId: slot.slotId,
+      date: new Date(slot.date).toISOString().split('T')[0],
+      userId: slot.userId
+    }
+    const book = await SlotService.releaseSlot(slotDetails);
+    if (book.success) {
+      toast.success(book.message);
+    }
+  }
 
   useEffect(() => {
     fetchHistory();
@@ -67,12 +84,18 @@ const History = () => {
                 </td>
                 <td className="py-2 px-4 border-b">{item.bookedBy}</td>
                 <td className="py-2 px-4 border-b">
-                  {new Date(item.bookedDate).toLocaleDateString()}
+                  {new Date(item.createdAt).toDateString()}
                 </td>
                 {user?.role == "admin" && (
                   <td className="py-2 px-4 border-b">{item.userId}</td>
                 )}
                 <td className="py-2 px-4 border-b">{item.status}</td>
+                <td className="py-2 px-4 border-b"><button
+                  onClick={() => hanldeSlotRelease(item)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Release
+                </button></td>
               </tr>
             ))}
           </tbody>

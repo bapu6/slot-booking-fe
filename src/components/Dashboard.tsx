@@ -127,9 +127,7 @@ const Dashboard = () => {
             <thead>
               <tr>
                 <th className="py-2 px-6 border-b text-left">Slot ID</th>{" "}
-                {/* Adjusted padding and alignment */}
                 <th className="py-2 px-6 border-b text-left">Action</th>{" "}
-                {/* Adjusted padding and alignment */}
               </tr>
             </thead>
             <tbody>
@@ -138,15 +136,13 @@ const Dashboard = () => {
                   <td className="py-2 px-6 border-b text-left">
                     {slot?.slotId}
                   </td>{" "}
-                  {/* Adjusted padding and alignment */}
                   <td className="py-2 px-6 border-b text-left">
                     {" "}
-                    {/* Adjusted padding and alignment */}
                     <button
                       onClick={() => hanldeBooking(slot)}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Book
+                      Reserve
                     </button>
                   </td>
                 </tr>

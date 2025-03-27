@@ -6,4 +6,5 @@ export interface ISlot {
   bookedDate: string;
   userId: string;
   status: number;
+  createdAt?: string;
 }
