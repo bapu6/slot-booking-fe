@@ -29,7 +29,7 @@ const Dashboard = () => {
       });
       console.log("data", data);
       if (success) setSlots(data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch slots");
     }
   };

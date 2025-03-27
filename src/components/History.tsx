@@ -1,45 +1,32 @@
 import { useSelector } from "react-redux";
 import { ISlot } from "../interfaces/slot";
 import { IStore } from "../interfaces/store";
+import { customFetch } from "../utils/api";
+import { useEffect, useState } from "react";
 
 const History = () => {
+  const [history, setHistory] = useState<ISlot[]>([]);
   const { data: user } = useSelector((store: IStore) => store?.user);
 
-  const data: ISlot[] = [
-    {
-      tower: 1,
-      slotId: 101,
-      date: "2025-03-26T00:00:00Z",
-      bookedBy: "605c72b2f1b2b2a1b2c3d4e5",
-      bookedDate: "2025-03-25T00:00:00Z",
-      userId: "605c72b2f1b2b2a1b2c3d4e6",
-      status: 0,
-    },
-    {
-      tower: 2,
-      slotId: 102,
-      date: "2025-03-27T00:00:00Z",
-      bookedBy: "605c72b2f1b2b2a1b2c3d4e7",
-      bookedDate: "2025-03-26T00:00:00Z",
-      userId: "605c72b2f1b2b2a1b2c3d4e8",
-      status: 1,
-    },
-    {
-      tower: 3,
-      slotId: 103,
-      date: "2025-03-28T00:00:00Z",
-      bookedBy: "605c72b2f1b2b2a1b2c3d4e9",
-      bookedDate: "2025-03-27T00:00:00Z",
-      userId: "605c72b2f1b2b2a1b2c3d4ea",
-      status: 0,
-    },
-  ];
+  const fetchHistory = async () => {
+    const { data, success } = await customFetch<null, ISlot[]>({
+      path: "/slots/history",
+    });
+    console.log("data", data);
+    if (success) {
+      setHistory(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
 
   return (
     <div className="p-4">
       <p className="font-bold text-[18px]">All your booking history</p>
       <div className="block md:hidden mt-6">
-        {data?.map((item: ISlot) => (
+        {history?.map((item: ISlot) => (
           <div
             key={item.slotId}
             className="history-card p-4 mb-4 border rounded shadow bg-blue-100"
@@ -71,7 +58,7 @@ const History = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((item: ISlot) => (
+            {history?.map((item: ISlot) => (
               <tr key={item.slotId} className="bg-white hover:bg-gray-50">
                 <td className="py-2 px-4 border-b">{item.tower}</td>
                 <td className="py-2 px-4 border-b">{item.slotId}</td>
