@@ -23,9 +23,8 @@ const user: IUser = {
   name: "Bapu Pradhan",
   email: "bapu.pradhan@hcltech.com",
   password: "Bapu@123",
-  role: "patient",
+  role: "employee",
   mobile: "",
-  sapId: ""
 };
 
 const actions = {

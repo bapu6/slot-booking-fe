@@ -3,9 +3,8 @@ export interface IUser {
   name: string;
   email: string;
   password?: string;
-  role: "patient" | "provider";
+  role: "admin" | "employee";
   mobile: string;
-  sapId: string;
 }
 
 export interface IUserLogin {
@@ -13,46 +12,17 @@ export interface IUserLogin {
   password: string;
 }
 
-export interface IUserInfo {
-  _id: string;
-  userId: string;
-  name: string;
-  email: string;
-  phone: string;
-  dob: string;
-  gender: string;
-  medications: string[];
-  allergies: string[];
-  goal: {
-    steps: number;
-    sleepHours: number;
-    waterIntake: number;
-  };
-  actualProgress: {
-    date?: Date;
-    steps: number;
-    sleepHours: number;
-    waterIntake: number;
-  }[];
-  preventiveCare: {
-    test: string;
-    date: string;
-  }[];
-  providerId: string;
-}
-
 export const defaultUser: IUser = {
   name: "",
   email: "",
   password: "",
-  role: "patient",
+  role: "employee",
   mobile: "",
-  sapId: "",
 };
 
-export function capitalizeFirstLetter(str: string) {
-  if (!str) {
-    return str;
-  }
-  return str.charAt(0).toUpperCase() + str.slice(1);
+export interface ISlotObject {
+  tower: number;
+  slotId: number;
+  date: string;
+  userId?: string;
 }

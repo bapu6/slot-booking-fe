@@ -5,9 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 import "./index.css";
 import Loader from "./components/Loader";
-import Profile from "./components/Profile";
-import WellnessGoal from "./components/WellnessGoal";
-import Activity from "./components/common/Activity";
+import History from "./components/History";
 
 const Header = React.lazy(() => import("./components/Header"));
 const Login = React.lazy(() => import("./components/Login"));
@@ -26,10 +24,7 @@ const App: React.FC = () => {
           <Routes>
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/wellnessgoal" element={<WellnessGoal />} />
-              <Route path="/activity" element={<Activity />} />
-
+              <Route path="/history" element={<History />} />
             </Route>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />

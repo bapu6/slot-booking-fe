@@ -14,23 +14,29 @@ export /**
  * @param {ICustomFetchParams} param0.data
  * @returns {Promise<T>}
  */
-const customFetch = async <T, U>({
-  path,
-  method = "GET",
-  data,
-}: ICustomFetchParams<T>): Promise<IApiResponse<U>> => {
-  const result = await fetch(`${apiUrl}/${path}`, {
-    method,
-    body: data ? JSON.stringify(data) : null,
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  })
-    .then((resp) => resp.json())
-    .then((result) => result)
-    .catch((e) => {
-      toast.error(e?.message);
-      throw new Error(e?.message);
-    });
-
-  return result;
-};
+  const customFetch = async <T, U>({
+    path,
+    method = "GET",
+    data,
+  }: ICustomFetchParams<T>): Promise<IApiResponse<U>> => {
+    try {
+      const res = await fetch(`${apiUrl}/${path}`, {
+        method,
+        body: data ? JSON.stringify(data) : null,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData?.message || "An error occurred");
+      }
+      const result = await res.json();
+      return result;
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error(e?.message);
+        throw e; // Rethrow the error after handling it
+      }
+      throw new Error("An unknown error occurred"); // Handle non-Error exceptions
+    }
+  };

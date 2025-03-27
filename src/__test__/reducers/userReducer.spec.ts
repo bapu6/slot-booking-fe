@@ -19,10 +19,9 @@ const state = initialState;
 const userDetails: IUser = {
   name: "Bapu Pradhan",
   email: "bapu.pradhan@hcltech.com",
-  password: "Bapuni@123",
-  role: "patient",
+  password: "Bapu@123",
+  role: "employee",
   mobile: "",
-  sapId: ""
 };
 
 const user = {
