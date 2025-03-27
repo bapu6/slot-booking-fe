@@ -4,11 +4,15 @@ import { customFetch } from "../utils/api";
 import { ISlot } from "../interfaces/slot";
 import { ISlotObject } from "../interfaces/user";
 import { SlotService } from "../services/slot.service";
+import SearchSelect, { User } from "./common/Search";
+import { IStore } from "../interfaces/store";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const [tower, setTower] = useState("");
   const [date, setDate] = useState("");
   const [slots, setSlots] = useState<ISlot[]>([]);
+  const { data: user } = useSelector((store: IStore) => store?.user);
 
   // Tower dropdown options
   const towerNumbers = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -17,19 +21,23 @@ const Dashboard = () => {
    * filtered by tower and date
    */
   const handleSearch = async () => {
+    if (user.role === "admin" && !selectedUser) {
+      toast.error("Please select an user");
+      return;
+    }
     if (!tower || !date) {
       toast.error("Please enter both tower and date");
       return;
     }
 
     try {
-      const { data, success } = await customFetch({
+      const { data, success } = await customFetch<null, ISlot[]>({
         path: `slots?tower=${tower}&date=${date}`,
         method: "GET",
       });
-      console.log('data', data)
-      if (success) setSlots((data as { data: ISlot[] })?.data);
-    } catch (error) {
+      console.log("data", data);
+      if (success) setSlots(data);
+    } catch {
       toast.error("Failed to fetch slots");
     }
   };
@@ -40,18 +48,32 @@ const Dashboard = () => {
       slotId: slot.slotId,
       date: date,
     }
-    // slotDetails.userId = "sdfhioas";
+    if (user.role === "admin") slotDetails.userId = selectedUser?._id;
     const book = await SlotService.bookSlot(slotDetails);
     if (book.success) {
       toast.success(book.message);
       setSlots([]);
+      setSelectedUser(undefined);
     }
   }
+
+  const [selectedUser, setSelectedUser] = useState<User>();
+
+  const handleSelect = (name: User) => {
+    console.log(selectedUser)
+    setSelectedUser(name);
+  };
+
 
 
   return (
     <div className="container mx-auto p-4 max-w-xl mt-10 md:mt-6 lg:mt-12">
-      <div className="flex flex-wrap -mx-3 mb-6">
+      {user.role === "admin" && (<div className="">
+        <h1 className="text-2xl mb-2">Reserve Parking slot for Employees</h1>
+        <SearchSelect onSelect={handleSelect} /> <br />
+        {selectedUser && (<p className="text-start p-2"><strong>Selected User<span className="text-red-500">*</span>: </strong><span className="p-2 bg-purple-400 text-white">{selectedUser?.name}</span></p>)}
+      </div>)}
+      <div className="flex flex-wrap -mx-3 mb-6 mt-4">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tower">
             Tower<span className="text-red-500">*</span>
