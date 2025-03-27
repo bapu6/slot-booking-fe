@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useMemo, ChangeEvent } from 'react';
-import _ from 'lodash';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { customFetch } from '../../utils/api';
 
-interface User {
+export interface User {
     _id: string;
     name: string;
 }
 
-const Search: React.FC = () => {
+interface SearchSelectProps {
+    onSelect: (name: User) => void;
+}
+
+const SearchSelect: React.FC<SearchSelectProps> = ({ onSelect }) => {
     const [users, setUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filteredOptions, setFilteredOptions] = useState<User[]>([]);
 
     useEffect(() => {
         // Fetch users from API
@@ -25,33 +29,48 @@ const Search: React.FC = () => {
         fetchUsers();
     }, []);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
+    const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearchTerm(value);
+        if (value.length >= 3) {
+            setFilteredOptions(users.filter(option =>
+                option.name.toLowerCase().includes(value.toLowerCase())
+            ));
+        } else {
+            setFilteredOptions([]);
+        }
     };
 
-    const debouncedHandleChange = useMemo(() => _.debounce(handleChange, 300), []);
-
-    const filteredNames = users
-        .filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        .map((user) => user.name);
+    const handleSelect = (option: User) => {
+        onSelect(option);
+        setSearchTerm('');
+        setFilteredOptions([]);
+    };
 
     return (
-        <div className="p-4">
+        <div>
+        
             <input
+            name="user"
                 type="text"
-                placeholder="Search names..."
-                onChange={debouncedHandleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                value={searchTerm}
+                onChange={handleSearch}
+                placeholder="Search Employees..."
+                className="w-full p-2 border border-gray-300 rounded"
             />
-            <ul className="list-disc pl-5">
-                {filteredNames.map((name, index) => (
-                    <li key={index} className="py-1">
-                        {name}
-                    </li>
-                ))}
-            </ul>
+            {searchTerm.length >= 3 && (
+                <div className="absolute  bg-green-300 border border-gray-300 rounded shadow-lg sm:w-2/6">
+                    <ul className="list-disc pl-5">
+                        {filteredOptions.map(option => (
+                            <li key={option._id} onClick={() => handleSelect(option)} className="py-1 cursor-pointer">
+                                {option.name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
 
-export default Search;
+export default SearchSelect;
